@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.hieupham.absolutecleanarchitecturekt"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    implementation project(':domain')
+    implementation project(':data')
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.support.appcompat
+    implementation deps.support.recyclerview
+    implementation deps.support.support_annotations
+    implementation deps.dagger.android
+    implementation deps.dagger.support
+    kapt deps.dagger.processor
+    kapt deps.dagger.compiler
+    implementation deps.butterKnife.butterKnife
+    kapt deps.butterKnife.compiler
+    implementation deps.rx.jsr
+    implementation deps.rx.rxjava
+    implementation deps.rx.rxandroid
+    implementation deps.arch.livedata
+    implementation deps.arch.runtime
+    kapt deps.arch.compiler
+    implementation deps.glide.glide
+    kapt deps.glide.compiler
+    implementation deps.gson
+    implementation deps.room.runtime
+    implementation deps.kotlin.java
+
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.support.test_runner
+    testImplementation deps.arch.core_testing
+
+    androidTestImplementation deps.support.test_runner
+    androidTestImplementation deps.support.test_espresso
+}

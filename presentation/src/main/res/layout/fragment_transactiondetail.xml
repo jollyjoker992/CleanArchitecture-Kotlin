@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="@string/transaction_detail"
+        tools:title="Bitmark"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:indeterminate="true"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_16"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/dp_200"
+                android:layout_height="@dimen/dp_45"
+                android:layout_gravity="center_horizontal"
+                app:srcCompat="@drawable/ic_logo_full"
+                />
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sp_16"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold"
+                tools:text="PROPERTY ISSUANCE"
+                />
+
+            <TextView
+                android:id="@+id/text_asset_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold"
+                tools:text="sm_180505-141114"
+                />
+
+            <TextView
+                android:id="@+id/text_block_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="@dimen/sp_12"
+                tools:text="BLOCK #8754 2018 JUN 05 13:11:48"
+                />
+
+            <TextView
+                android:id="@+id/text_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="@dimen/sp_12"
+                tools:text="ISSUED BY: f9rsMSkQK17xmxWVEA91ZyfWCeR7eTLyrmVs2cQY6vpVaSa7fu"
+                />
+
+            <TextView
+                android:id="@+id/text_bitmark_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="@dimen/sp_12"
+                tools:text="BITMARK ID: f37c290b2ea923c78a8ab8081a6c9682e7d7d32888a9db89bb8c060d60f3343c"
+                />
+
+            <TextView
+                android:id="@+id/text_meta_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:textColor="@android:color/secondary_text_light"
+                android:textSize="@dimen/sp_12"
+                tools:text="CREATOR: neHnD4zC6ao3dRD8ZJAD4njHQumqDwYjsBkxV9ayfDGwJ2wAGDu"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

@@ -1,0 +1,30 @@
+apply plugin: 'java-library'
+
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.kotlin.java
+    implementation deps.rx.jsr
+    implementation deps.rx.rxjava
+    implementation deps.rx.rxandroid
+    implementation deps.gson
+    implementation deps.dagger.android
+    implementation deps.dagger.support
+
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.support.test_runner
+}
+
+compileKotlin {
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
+}
+compileTestKotlin {
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
+}

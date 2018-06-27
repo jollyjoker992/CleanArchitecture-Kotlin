@@ -1,0 +1,15 @@
+<resources>
+
+    <string name="app_name">Bitmark Explorer</string>
+    <string name="property_transfer">PROPERTY TRANSFER</string>
+    <string name="property_issuance">PROPERTY ISSUANCE</string>
+    <string name="transfer_to_format">TRANSFER TO %1$s</string>
+    <string name="issuance_by_format">ISSUANCE BY %1$s</string>
+    <string name="block_name_format">BLOCK #%1$d %2$s</string>
+    <string name="bitmark_transfer_format">BITMARK TRANSFER FROM %1$s TO %2$s</string>
+    <string name="bitmark_id_format">BITMARK ID: \n%1$s </string>
+    <string name="issued_by_format">ISSUED BY: %1$s</string>
+    <string name="transaction">Transaction</string>
+    <string name="transaction_detail">Transaction Detail</string>
+
+</resources>

@@ -1,0 +1,71 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+android {
+  compileSdkVersion 26
+
+  defaultConfig {
+    minSdkVersion 21
+    targetSdkVersion 26
+    versionCode 1
+    versionName "1.0"
+
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    javaCompileOptions {
+      annotationProcessorOptions {
+        arguments = ["room.schemaLocation":
+                         "$projectDir/schemas".toString()]
+      }
+    }
+
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  sourceSets {
+    androidTest.assets.srcDirs +=
+        files("$projectDir/schemas".toString())
+  }
+}
+
+dependencies {
+  implementation project(':domain')
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+  implementation deps.room.runtime
+  kapt deps.room.compiler
+  implementation deps.room.rxjava2
+  implementation deps.rx.jsr
+  implementation deps.rx.rxjava
+  implementation deps.rx.rxandroid
+  implementation deps.retrofit.retrofit
+  implementation deps.retrofit.rxjava2
+  implementation deps.retrofit.gson
+  implementation deps.retrofit.okhttp3
+  implementation deps.retrofit.logging
+  implementation deps.support.support_annotations
+  implementation deps.dagger.support
+  implementation deps.dagger.android
+  kapt deps.dagger.processor
+  kapt deps.dagger.compiler
+  implementation deps.kotlin.java
+
+  androidTestImplementation deps.room.testing
+  androidTestImplementation deps.arch.core_testing
+  androidTestImplementation deps.support.test_runner
+  testImplementation deps.junit
+  testImplementation deps.mockito
+  testImplementation deps.support.test_runner
+  testImplementation deps.arch.core_testing
+}

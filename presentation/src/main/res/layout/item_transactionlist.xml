@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_88"
+    android:orientation="horizontal"
+    android:padding="@dimen/dp_16"
+    >
+
+    <ImageView
+        android:id="@+id/image_des"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        app:srcCompat="@drawable/ic_logo"
+        />
+
+    <LinearLayout
+        android:id="@+id/layout_des"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_toEndOf="@id/image_des"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/text_block_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="@android:color/primary_text_light"
+            android:textSize="@dimen/sp_16"
+            tools:text="First line item"
+            />
+
+        <TextView
+            android:id="@+id/text_asset_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="@android:color/tertiary_text_light"
+            android:textSize="@dimen/sp_12"
+            tools:text="Secondary line item"
+            />
+
+        <TextView
+            android:id="@+id/text_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="@android:color/tertiary_text_light"
+            android:textSize="@dimen/sp_12"
+            tools:text="Third line item"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
