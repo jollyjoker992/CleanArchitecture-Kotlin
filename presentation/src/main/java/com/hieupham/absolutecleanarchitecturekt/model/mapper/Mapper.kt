@@ -1,4 +1,3 @@
 package com.hieupham.absolutecleanarchitecturekt.model.mapper
 
-abstract class Mapper {
-}
+abstract class Mapper

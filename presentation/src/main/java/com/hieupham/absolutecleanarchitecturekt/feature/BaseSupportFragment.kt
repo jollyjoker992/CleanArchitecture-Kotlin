@@ -59,10 +59,10 @@ abstract class BaseSupportFragment : DaggerSupportFragment() {
      * Init [View] components here. Such as set adapter for [RecyclerView], set listener
      * or anything else
      */
-    protected fun initComponents() {}
+    protected open fun initComponents() {}
 
     /**
      * Observe data change from ViewModel
      */
-    protected fun observe() {}
+    protected open fun observe() {}
 }

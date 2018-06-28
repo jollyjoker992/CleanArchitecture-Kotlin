@@ -66,6 +66,7 @@ class IntervalScheduler @Inject constructor() {
         if (schedulerListeners.isEmpty() && timer != null) {
             cancel()
         }
+
     }
 
     private fun onSchedule() {
@@ -85,6 +86,4 @@ class IntervalScheduler @Inject constructor() {
             }
         }
     }
-
-
 }

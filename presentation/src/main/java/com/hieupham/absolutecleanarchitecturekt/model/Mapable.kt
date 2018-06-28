@@ -1,4 +1,6 @@
 package com.hieupham.absolutecleanarchitecturekt.model
 
-interface Mapable {
+interface Mapable<T, R> {
+
+    fun map(data: T): R
 }

@@ -19,7 +19,7 @@ class Resource<T> private constructor(val status: Int, val data: T?,
             return Resource(SUCCESS, data, null)
         }
 
-        fun <T> error(throwable: Throwable, data: T?): Resource<T> {
+        fun <T> error(throwable: Throwable?, data: T?): Resource<T> {
             return Resource(ERROR, data, throwable)
         }
 
