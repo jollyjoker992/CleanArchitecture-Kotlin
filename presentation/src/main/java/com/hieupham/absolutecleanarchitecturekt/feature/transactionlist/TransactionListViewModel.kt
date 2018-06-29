@@ -1,4 +1,77 @@
 package com.hieupham.absolutecleanarchitecturekt.feature.transactionlist
 
-class TransactionListViewModel {
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
+import com.hieupham.absolutecleanarchitecturekt.model.CompositeTransactionModelView
+import com.hieupham.absolutecleanarchitecturekt.model.mapper.CompositeTransactionModelViewMapper
+import com.hieupham.absolutecleanarchitecturekt.util.common.Duration
+import com.hieupham.absolutecleanarchitecturekt.util.common.IntervalScheduler
+import com.hieupham.absolutecleanarchitecturekt.util.livedata.LiveDataObserver
+import com.hieupham.absolutecleanarchitecturekt.util.livedata.Resource
+import com.hieupham.domain.entity.CompositeTransactions
+import com.hieupham.domain.interactor.UseCase
+import com.hieupham.domain.interactor.usecase.GetTransactionsUseCase
+import java.util.concurrent.TimeUnit
+
+class TransactionListViewModel(getTransactionsUseCase: GetTransactionsUseCase,
+        taskScheduler: IntervalScheduler,
+        mapper: CompositeTransactionModelViewMapper) : ViewModel(
+        getTransactionsUseCase) {
+
+    private val liveNextTransactions = MutableLiveData<Resource<List<CompositeTransactionModelView>>>()
+    private val liveLatestTransactions = MutableLiveData<Resource<List<CompositeTransactionModelView>>>()
+    private val liveRefreshTransactions = MutableLiveData<Resource<List<CompositeTransactionModelView>>>()
+    private val taskScheduler: IntervalScheduler = taskScheduler
+    private val mapper: CompositeTransactionModelViewMapper = mapper
+
+    init {
+        taskScheduler.observe(this)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        val duration = Duration.from(2, TimeUnit.MINUTES)
+        taskScheduler.triggerOnMain().delay(duration).period(duration).schedule()
+    }
+
+    override fun onDestroy() {
+        taskScheduler.cancel()
+        super.onDestroy()
+    }
+
+    override fun nextTransactions(): LiveData<Resource<List<CompositeTransactionModelView>>> {
+        return liveNextTransactions
+    }
+
+    override fun latestTransactions(): LiveData<Resource<List<CompositeTransactionModelView>>> {
+        return liveLatestTransactions
+    }
+
+    override fun refreshedTransactions(): LiveData<Resource<List<CompositeTransactionModelView>>> {
+        return liveRefreshTransactions
+    }
+
+    override fun getNextTransactions() {
+        val output = LiveDataObserver.from(liveNextTransactions,
+                fun(transactions: CompositeTransactions): List<CompositeTransactionModelView> {
+                    return mapper.transform(transactions)
+                })
+        getTransactionsUseCase.next().execute(UseCase.EmptyInput.instance(), output)
+    }
+
+    override fun refreshTransactions() {
+        val output = LiveDataObserver.from<CompositeTransactions, List<CompositeTransactionModelView>>(
+                liveRefreshTransactions) { transactions -> mapper.transform(transactions) }
+        getTransactionsUseCase.refresh().execute(UseCase.EmptyInput.instance(), output)
+    }
+
+    override fun fetchLatestTransactions() {
+        val output = LiveDataObserver.from<CompositeTransactions, List<CompositeTransactionModelView>>(
+                liveLatestTransactions) { transitions -> mapper.transform(transitions) }
+        getTransactionsUseCase.fetchLatest().execute(UseCase.EmptyInput.instance(), output)
+    }
+
+    override fun onSchedule() {
+        fetchLatestTransactions()
+    }
 }

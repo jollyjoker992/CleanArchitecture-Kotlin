@@ -18,8 +18,8 @@ class IntervalScheduler @Inject constructor() {
     private var isCancelled = false
     private var triggerOnMain = false
 
-    fun triggerOnMain(triggerOnMain: Boolean): IntervalScheduler {
-        this.triggerOnMain = triggerOnMain
+    fun triggerOnMain(): IntervalScheduler {
+        this.triggerOnMain = true
         return this
     }
 

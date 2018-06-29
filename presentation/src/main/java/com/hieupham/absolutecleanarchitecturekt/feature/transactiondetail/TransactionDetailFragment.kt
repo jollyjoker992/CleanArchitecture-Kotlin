@@ -57,8 +57,8 @@ class TransactionDetailFragment : BaseSupportFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val transaction = savedInstanceState?.getParcelable(
-                TRANSACTION) as CompositeTransactionModelView
+        val transaction = arguments?.getParcelable(
+                TRANSACTION) as? CompositeTransactionModelView ?: return
         bindData(transaction)
         viewModel.getTransactionDetail(transaction.transaction.id)
     }
@@ -98,14 +98,15 @@ class TransactionDetailFragment : BaseSupportFragment() {
     }
 
     private fun bindData(transaction: CompositeTransactionModelView) {
+        val context = context ?: return
         textViewTitle.text = if (transaction.isTransfer())
-            context?.getString(R.string.property_transfer)
+            context.getString(R.string.property_transfer)
         else
-            context?.getString(R.string.property_issuance)
+            context.getString(R.string.property_issuance)
         textViewAssetName.text = transaction.asset.name
-        textViewBlockName.text = transaction.getBlockName(context!!)
-        textViewDescription.text = transaction.getDescription(context!!)
-        textViewBitmarkId.text = transaction.getBitmarkId(context!!)
+        textViewBlockName.text = transaction.getBlockName(context)
+        textViewDescription.text = transaction.getDescription(context)
+        textViewBitmarkId.text = transaction.getBitmarkId(context)
         textViewMetaData.text = transaction.getMetadata()
     }
 }

@@ -1,4 +1,3 @@
 package com.hieupham.absolutecleanarchitecturekt.feature.main
 
-class MainViewModel : ViewModel() {
-}
+class MainViewModel : ViewModel()

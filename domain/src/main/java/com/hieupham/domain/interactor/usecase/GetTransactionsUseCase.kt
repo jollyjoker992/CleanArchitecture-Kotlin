@@ -18,7 +18,7 @@ class GetTransactionsUseCase @Inject constructor(
     private var blockHeight: Long? = null
 
     fun next(): GetTransactionsUseCase {
-        blockNumber?.dec()
+        blockNumber = blockNumber?.dec()
         return this
     }
 
@@ -28,7 +28,7 @@ class GetTransactionsUseCase @Inject constructor(
         return this
     }
 
-    fun fetchLastest(): GetTransactionsUseCase {
+    fun fetchLatest(): GetTransactionsUseCase {
         blockHeight = null
         return this
     }
@@ -41,7 +41,10 @@ class GetTransactionsUseCase @Inject constructor(
         return transactionRepo.getBlockHeight().flatMapMaybe { height ->
             if (blockNumber == null && height != 0L) blockNumber = height
             if (Objects.equals(blockHeight, height)) Maybe.empty()
-            else transactionRepo.getTransactions(height)
+            else {
+                blockHeight = height
+                transactionRepo.getTransactions(height)
+            }
         }
     }
 

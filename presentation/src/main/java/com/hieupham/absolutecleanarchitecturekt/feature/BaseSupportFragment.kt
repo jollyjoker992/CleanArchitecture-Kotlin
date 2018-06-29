@@ -20,13 +20,13 @@ abstract class BaseSupportFragment : DaggerSupportFragment() {
         super.onAttach(context)
         if (viewModel() != null)
             lifecycle.addObserver(viewModel()!!)
-        observe()
+        observe@ observe()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?): View? {
         if (rootView == null) rootView = inflater.inflate(layoutRes(), container, false)
-        else unbinder = ButterKnife.bind(this, rootView!!)
+        unbinder = ButterKnife.bind(this, rootView!!)
         return rootView
     }
 

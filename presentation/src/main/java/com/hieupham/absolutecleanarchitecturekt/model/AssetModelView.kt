@@ -9,13 +9,13 @@ class AssetModelView() : Parcelable, Mapable<Asset, AssetModelView> {
 
     lateinit var id: String
     lateinit var name: String
-    lateinit var fingerPrint: String
+    var fingerPrint: String? = null
     var metadata: LinkedTreeMap<String, String>? = null
     lateinit var registrant: String
     lateinit var status: String
     var blockNumber: Long = 0
     var blockOffset: Long = 0
-    lateinit var expiresAt: String
+    var expiresAt: String? = null
     var offset: Long = 0
 
     constructor(parcel: Parcel) : this() {
@@ -30,9 +30,9 @@ class AssetModelView() : Parcelable, Mapable<Asset, AssetModelView> {
         offset = parcel.readLong()
     }
 
-    constructor(id: String, name: String, fingerPrint: String,
+    constructor(id: String, name: String, fingerPrint: String?,
             metadata: LinkedTreeMap<String, String>?, registrant: String, status: String,
-            blockNumber: Long, blockOffset: Long, expiresAt: String, offset: Long) : this() {
+            blockNumber: Long, blockOffset: Long, expiresAt: String?, offset: Long) : this() {
         this.id = id
         this.name = name
         this.fingerPrint = fingerPrint

@@ -4,6 +4,7 @@ import android.app.Application
 import com.hieupham.absolutecleanarchitecturekt.di.ActivityBuilderModule
 import com.hieupham.data.NetworkModule
 import com.hieupham.data.RepositoryModule
+import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
@@ -15,10 +16,10 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent : AndroidInjector<CleanArchitectureApp> {
 
-
     @Component.Builder
     interface Builder {
 
+        @BindsInstance
         fun application(app: Application): Builder
 
         fun build(): AppComponent

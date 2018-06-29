@@ -14,7 +14,7 @@ class TransactionModelView() : Parcelable, Mapable<Transaction, TransactionModel
     var blockNumber: Long = 0
     var blockOffset: Long = 0
     var offset: Long = 0
-    lateinit var expiredAt: String
+    var expiredAt: String? = null
     lateinit var payId: String
     var previousId: String? = null
     lateinit var bitmarkId: String
@@ -35,7 +35,7 @@ class TransactionModelView() : Parcelable, Mapable<Transaction, TransactionModel
     }
 
     constructor(id: String, owner: String, assetId: String, head: String, status: String,
-            blockNumber: Long, blockOffset: Long, offset: Long, expiredAt: String, payId: String,
+            blockNumber: Long, blockOffset: Long, offset: Long, expiredAt: String?, payId: String,
             previousId: String?, bitmarkId: String) : this() {
         this.id = id
         this.owner = owner

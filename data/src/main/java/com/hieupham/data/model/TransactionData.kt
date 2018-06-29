@@ -46,7 +46,7 @@ data class TransactionData(
         @Expose
         @ColumnInfo(name = "expires_at")
         @SerializedName("expires_at")
-        val expiredAt: String,
+        val expiredAt: String?,
 
         @Expose
         @ColumnInfo(name = "pay_id")
@@ -56,7 +56,7 @@ data class TransactionData(
         @Expose
         @ColumnInfo(name = "previous_id")
         @SerializedName("previous_id")
-        val previousId: String,
+        val previousId: String?,
 
         @Expose
         @ColumnInfo(name = "bitmark_id")

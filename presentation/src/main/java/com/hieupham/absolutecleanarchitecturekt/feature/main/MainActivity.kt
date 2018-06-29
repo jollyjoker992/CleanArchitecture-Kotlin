@@ -29,5 +29,9 @@ class MainActivity : BaseAppCompatActivity() {
         return viewModel
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
 
 }

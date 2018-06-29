@@ -24,10 +24,10 @@ data class AssetData(
         @Expose
         @SerializedName("finger_print")
         @ColumnInfo(name = "finger_print")
-        val fingerPrint: String,
+        val fingerPrint: String?,
 
         @Expose
-        val metadata: LinkedTreeMap<String, String>,
+        val metadata: LinkedTreeMap<String, String>?,
 
         @Expose
         val registrant: String,
@@ -48,7 +48,7 @@ data class AssetData(
         @Expose
         @SerializedName("expires_at")
         @ColumnInfo(name = "expires_at")
-        val expiresAt: String,
+        val expiresAt: String?,
 
         @Expose
         val offset: Long) : Mapable<Asset> {

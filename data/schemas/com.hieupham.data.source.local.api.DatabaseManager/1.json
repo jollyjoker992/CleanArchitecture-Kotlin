@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "79b26db09e31c6542591e338b3fd122d",
+    "identityHash": "5ec91c83ad411806e0f9d8269ee0f59e",
     "entities": [
       {
         "tableName": "Transaction",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `owner` TEXT NOT NULL, `asset_id` TEXT NOT NULL, `head` TEXT NOT NULL, `status` TEXT NOT NULL, `block_number` INTEGER NOT NULL, `block_offset` INTEGER NOT NULL, `offset` INTEGER NOT NULL, `expires_at` TEXT NOT NULL, `pay_id` TEXT NOT NULL, `previous_id` TEXT NOT NULL, `bitmark_id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `owner` TEXT NOT NULL, `asset_id` TEXT NOT NULL, `head` TEXT NOT NULL, `status` TEXT NOT NULL, `block_number` INTEGER NOT NULL, `block_offset` INTEGER NOT NULL, `offset` INTEGER NOT NULL, `expires_at` TEXT, `pay_id` TEXT NOT NULL, `previous_id` TEXT, `bitmark_id` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -60,7 +60,7 @@
             "fieldPath": "expiredAt",
             "columnName": "expires_at",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "payId",
@@ -72,7 +72,7 @@
             "fieldPath": "previousId",
             "columnName": "previous_id",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "bitmarkId",
@@ -92,7 +92,7 @@
       },
       {
         "tableName": "Asset",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `finger_print` TEXT NOT NULL, `metadata` TEXT NOT NULL, `registrant` TEXT NOT NULL, `status` TEXT NOT NULL, `block_number` INTEGER NOT NULL, `block_offset` INTEGER NOT NULL, `expires_at` TEXT NOT NULL, `offset` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `finger_print` TEXT, `metadata` TEXT, `registrant` TEXT NOT NULL, `status` TEXT NOT NULL, `block_number` INTEGER NOT NULL, `block_offset` INTEGER NOT NULL, `expires_at` TEXT, `offset` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -110,13 +110,13 @@
             "fieldPath": "fingerPrint",
             "columnName": "finger_print",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "metadata",
             "columnName": "metadata",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "registrant",
@@ -146,7 +146,7 @@
             "fieldPath": "expiresAt",
             "columnName": "expires_at",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "offset",
@@ -199,7 +199,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"79b26db09e31c6542591e338b3fd122d\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5ec91c83ad411806e0f9d8269ee0f59e\")"
     ]
   }
 }
