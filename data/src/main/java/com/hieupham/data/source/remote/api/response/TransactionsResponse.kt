@@ -1,5 +1,6 @@
 package com.hieupham.data.source.remote.api.response
 
+import android.support.annotation.VisibleForTesting
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.hieupham.data.model.AssetData
@@ -14,7 +15,7 @@ import com.hieupham.domain.entity.Transaction
 /**
  * Created by hieupham on 6/26/18.
  */
-class TransactionsResponse : Mapable<CompositeTransactions>, Response {
+class TransactionsResponse() : Mapable<CompositeTransactions>, Response {
 
     @Expose
     @SerializedName("txs")
@@ -25,6 +26,14 @@ class TransactionsResponse : Mapable<CompositeTransactions>, Response {
 
     @Expose
     lateinit var blocks: List<BlockData>
+
+    @VisibleForTesting
+    constructor(transactions: List<TransactionData>, assets: List<AssetData>,
+            blocks: List<BlockData>) : this() {
+        this.transactions = transactions
+        this.assets = assets
+        this.blocks = blocks
+    }
 
     override fun map(): CompositeTransactions {
         val transactions = mutableListOf<Transaction>()

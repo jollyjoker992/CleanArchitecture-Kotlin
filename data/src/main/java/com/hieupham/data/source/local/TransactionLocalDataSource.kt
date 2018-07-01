@@ -12,7 +12,7 @@ import javax.inject.Inject
 /**
  * Created by hieupham on 6/26/18.
  */
-class TransactionLocalDataSource @Inject constructor(databaseApi: DatabaseApi,
+open class TransactionLocalDataSource @Inject constructor(databaseApi: DatabaseApi,
         sharedPrefApi: SharedPrefApi) : LocalDataSource(databaseApi, sharedPrefApi) {
 
     fun getTransactions(blockNumber: Long, limit: Int): Maybe<TransactionsResponse> {

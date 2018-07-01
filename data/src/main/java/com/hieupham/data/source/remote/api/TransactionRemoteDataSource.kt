@@ -11,7 +11,7 @@ import javax.inject.Inject
 /**
  * Created by hieupham on 6/26/18.
  */
-class TransactionRemoteDataSource @Inject constructor(bitmarkApi: BitmarkApi,
+open class TransactionRemoteDataSource @Inject constructor(bitmarkApi: BitmarkApi,
         converter: Converter) : RemoteDataSource(
         bitmarkApi, converter) {
 

@@ -20,6 +20,7 @@ class SharedPrefApi @Inject constructor(context: Context, private val gson: Gson
             Context.MODE_PRIVATE)
 
 
+    @Suppress("UNCHECKED_CAST")
     fun <T : Any> get(key: String, type: KClass<T>): T {
         return when (type) {
             String::class -> sharedPreferences.getString(key, "") as T
