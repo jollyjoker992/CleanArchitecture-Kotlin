@@ -8,5 +8,5 @@ import javax.inject.Inject
  */
 open class Mapper @Inject constructor() {
 
-    fun <T : Mapable<R>, R> map(): (T) -> R = { t -> t.map() }
+    open fun <T : Mapable<R>, R> map(): (T) -> R = { t -> t.map() }
 }

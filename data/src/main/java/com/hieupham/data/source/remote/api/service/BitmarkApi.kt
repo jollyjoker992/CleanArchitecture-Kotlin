@@ -15,12 +15,13 @@ interface BitmarkApi {
 
     @GET("txs")
     fun getTransactions(@Query("block_number") blockNumber: Long,
-            @Query("to") to: String, @Query("limit") limit: Int, @Query("asset") asset: Boolean,
-            @Query("block") block: Boolean): Single<TransactionsResponse>
+            @Query("to") to: String, @Query("limit") limit: Int, @Query(
+                    "asset") asset: Boolean = true,
+            @Query("block") block: Boolean = true): Single<TransactionsResponse>
 
     @GET("txs/{id}")
-    fun getTransaction(@Path("id") id: String, @Query("asset") asset: Boolean,
-            @Query("block") block: Boolean): Single<TransactionResponse>
+    fun getTransaction(@Path("id") id: String, @Query("asset") asset: Boolean = true,
+            @Query("block") block: Boolean = true): Single<TransactionResponse>
 
     @GET("info")
     fun getInfo(): Single<InfoResponse>

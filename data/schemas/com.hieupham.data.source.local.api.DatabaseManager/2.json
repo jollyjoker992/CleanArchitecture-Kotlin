@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 1,
-    "identityHash": "b2c8b600d6565df85bb1bdd8ec27dc36",
+    "version": 2,
+    "identityHash": "fd093e71e35c48cbd730647251fb7de1",
     "entities": [
       {
         "tableName": "Transaction",
@@ -206,7 +206,7 @@
       },
       {
         "tableName": "Block",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`number` INTEGER NOT NULL, `hash` TEXT NOT NULL, `created_at` TEXT NOT NULL, PRIMARY KEY(`number`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`number` INTEGER NOT NULL, `hash` TEXT NOT NULL, `created_at` TEXT NOT NULL, `bitmark_id` TEXT, PRIMARY KEY(`number`))",
         "fields": [
           {
             "fieldPath": "number",
@@ -225,6 +225,12 @@
             "columnName": "created_at",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "bitmarkId",
+            "columnName": "bitmark_id",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -239,7 +245,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b2c8b600d6565df85bb1bdd8ec27dc36\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"fd093e71e35c48cbd730647251fb7de1\")"
     ]
   }
 }

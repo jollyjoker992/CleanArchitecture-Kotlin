@@ -1,5 +1,6 @@
 package com.hieupham.data.source.remote.api.service
 
+import android.support.annotation.VisibleForTesting
 import com.google.gson.Gson
 import com.hieupham.data.BuildConfig
 import com.hieupham.data.source.remote.api.middleware.RxErrorHandlingCallAdapterFactory
@@ -18,10 +19,17 @@ class ServiceGenerator {
 
     companion object {
 
-        private const val CONNECTION_TIMEOUT = 15L
+        const val CONNECTION_TIMEOUT = 15L
+        @VisibleForTesting
+        const val TEST_CONNECTION_TIMEOUT = 2L
 
         fun <T> createService(endPoint: String, serviceClass: Class<T>, gson: Gson,
                 interceptor: Interceptor?): T {
+            return createService(endPoint, serviceClass, gson, interceptor, CONNECTION_TIMEOUT)
+        }
+
+        fun <T> createService(endPoint: String, serviceClass: Class<T>, gson: Gson,
+                interceptor: Interceptor?, timeout: Long): T {
             val httpClientBuilder = OkHttpClient.Builder()
             if (BuildConfig.DEBUG) {
                 val loggingInterceptor = HttpLoggingInterceptor()
@@ -31,8 +39,9 @@ class ServiceGenerator {
             if (interceptor != null) {
                 httpClientBuilder.addInterceptor(interceptor)
             }
-            httpClientBuilder.readTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-            httpClientBuilder.connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+            httpClientBuilder.writeTimeout(timeout, TimeUnit.SECONDS)
+            httpClientBuilder.readTimeout(timeout, TimeUnit.SECONDS)
+            httpClientBuilder.connectTimeout(timeout, TimeUnit.SECONDS)
             val builder = Retrofit.Builder().baseUrl(endPoint)
                     .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory())
                     .addConverterFactory(GsonConverterFactory.create(gson))

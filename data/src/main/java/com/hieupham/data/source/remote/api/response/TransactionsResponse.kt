@@ -53,4 +53,24 @@ class TransactionsResponse() : Mapable<CompositeTransactions>, Response {
 
         return CompositeTransactions(transactions, assets, blocks)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is TransactionsResponse) return false
+
+        if (transactions != other.transactions) return false
+        if (assets != other.assets) return false
+        if (blocks != other.blocks) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = transactions.hashCode()
+        result = 31 * result + assets.hashCode()
+        result = 31 * result + blocks.hashCode()
+        return result
+    }
+
+
 }

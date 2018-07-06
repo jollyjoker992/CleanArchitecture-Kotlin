@@ -1,8 +1,6 @@
 package com.hieupham.data.model
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.*
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.hieupham.domain.entity.Transaction
@@ -10,7 +8,12 @@ import com.hieupham.domain.entity.Transaction
 /**
  * Created by hieupham on 6/26/18.
  */
-@Entity(tableName = "Transaction")
+@Entity(tableName = "Transaction", foreignKeys = [(ForeignKey(entity = AssetData::class,
+        parentColumns = ["id"],
+        childColumns = ["asset_id"])), (ForeignKey(entity = BlockData::class,
+        parentColumns = ["number"],
+        childColumns = ["block_number"]))], indices = [(Index(value = ["asset_id"])), (Index(
+        "block_number"))])
 data class TransactionData(
         @PrimaryKey
         @Expose

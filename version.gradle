@@ -19,6 +19,7 @@ versions.test_runner = "1.0.2"
 versions.test_espresso_core = "3.0.2"
 versions.gson = "2.8.0"
 versions.kotlin = "1.2.50"
+versions.mockito_kotlin = "2.0.0-RC1"
 
 def support = [:]
 support.appcompat = "com.android.support:appcompat-v7:$versions.support"
@@ -56,6 +57,7 @@ retrofit.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofit"
 retrofit.rxjava2 = "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
 retrofit.gson = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 retrofit.okhttp3 = "com.squareup.okhttp3:okhttp:$versions.okhttp"
+retrofit.okhttp3_mockserver = "com.squareup.okhttp3:mockwebserver:$versions.okhttp"
 retrofit.logging = "com.squareup.okhttp3:logging-interceptor:$versions.okhttp"
 
 def arch = [:]
@@ -75,6 +77,7 @@ kotlin.java = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin"
 def junit = "junit:junit:$versions.junit"
 def mockito = "org.mockito:mockito-core:$versions.mockito"
 def gson = "com.google.code.gson:gson:$versions.gson"
+def mockito_kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockito_kotlin"
 
 def dependencies = [:]
 dependencies.support = support
@@ -89,6 +92,7 @@ dependencies.junit = junit
 dependencies.mockito = mockito
 dependencies.gson = gson
 dependencies.kotlin = kotlin
+dependencies.mockito_kotlin = mockito_kotlin
 ext.deps = dependencies
 
 def build_versions = [:]

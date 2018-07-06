@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 /**
  * Created by hieupham on 6/26/18.
  */
-class SharedPrefApi @Inject constructor(context: Context, private val gson: Gson) {
+open class SharedPrefApi @Inject constructor(context: Context, private val gson: Gson) {
 
     companion object {
         const val LAST_KNOWN_BLOCK_HEIGHT = "last_known_block_height"

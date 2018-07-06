@@ -22,8 +22,8 @@ data class AssetData(
         val name: String,
 
         @Expose
-        @SerializedName("finger_print")
-        @ColumnInfo(name = "finger_print")
+        @SerializedName("fingerprint")
+        @ColumnInfo(name = "fingerprint")
         val fingerPrint: String?,
 
         @Expose

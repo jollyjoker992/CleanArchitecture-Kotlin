@@ -9,7 +9,7 @@ import io.reactivex.schedulers.Schedulers
 /**
  * Created by hieupham on 6/26/18.
  */
-class DatabaseApiImpl(private val databaseManager: DatabaseManager) : DatabaseApi {
+open class DatabaseApiImpl(private val databaseManager: DatabaseManager) : DatabaseApi {
 
     override fun assetDao(): AssetDao {
         return databaseManager.assetDao()

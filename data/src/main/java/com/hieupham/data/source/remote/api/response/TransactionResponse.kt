@@ -31,8 +31,28 @@ class TransactionResponse() : Mapable<CompositeTransaction>, Response {
     @Expose
     lateinit var block: BlockData
 
+
+
     override fun map(): CompositeTransaction {
         return CompositeTransaction(transaction.map(), asset.map(), block.map())
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is TransactionResponse) return false
+
+        if (transaction != other.transaction) return false
+        if (asset != other.asset) return false
+        if (block != other.block) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = transaction.hashCode()
+        result = 31 * result + asset.hashCode()
+        result = 31 * result + block.hashCode()
+        return result
     }
 }
 

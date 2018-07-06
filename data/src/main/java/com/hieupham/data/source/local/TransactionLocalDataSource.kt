@@ -15,7 +15,7 @@ import javax.inject.Inject
 open class TransactionLocalDataSource @Inject constructor(databaseApi: DatabaseApi,
         sharedPrefApi: SharedPrefApi) : LocalDataSource(databaseApi, sharedPrefApi) {
 
-    fun getTransactions(blockNumber: Long, limit: Int): Maybe<TransactionsResponse> {
+    open fun getTransactions(blockNumber: Long, limit: Int): Maybe<TransactionsResponse> {
         return singleDb { databaseApi -> databaseApi.transactionDao().getMaxBlockNumber() }
                 .flatMapMaybe { maxBlockNumber ->
                     if (blockNumber > maxBlockNumber) Maybe.empty()
@@ -44,7 +44,7 @@ open class TransactionLocalDataSource @Inject constructor(databaseApi: DatabaseA
                 }
     }
 
-    fun getTransaction(id: String): Maybe<TransactionResponse> {
+    open fun getTransaction(id: String): Maybe<TransactionResponse> {
         return maybeDb { databaseApi -> databaseApi.transactionDao().get(id) }
                 .flatMap { transaction ->
                     val response = TransactionResponse()
@@ -66,7 +66,7 @@ open class TransactionLocalDataSource @Inject constructor(databaseApi: DatabaseA
                 }
     }
 
-    fun save(response: TransactionsResponse): Completable {
+    open fun save(response: TransactionsResponse): Completable {
         return completableDb { databaseApi ->
             databaseApi.blockDao().save(response.blocks)
             databaseApi.assetDao().save(response.assets)
@@ -75,7 +75,7 @@ open class TransactionLocalDataSource @Inject constructor(databaseApi: DatabaseA
         }
     }
 
-    fun save(response: TransactionResponse): Completable {
+    open fun save(response: TransactionResponse): Completable {
         return completableDb { databaseApi ->
             databaseApi.blockDao().save(response.block)
             databaseApi.assetDao().save(response.asset)
@@ -84,13 +84,13 @@ open class TransactionLocalDataSource @Inject constructor(databaseApi: DatabaseA
         }
     }
 
-    fun saveLastKnownBlockHeight(height: Long): Completable {
+    open fun saveLastKnownBlockHeight(height: Long): Completable {
         return completableSharedPref { sharedPrefApi ->
             sharedPrefApi.put<Any>(SharedPrefApi.LAST_KNOWN_BLOCK_HEIGHT, height)
         }
     }
 
-    fun getLastKnownBlockHeight(): Single<Long> {
+    open fun getLastKnownBlockHeight(): Single<Long> {
         return singleSharedPref { emitter, sharedPrefApi ->
             emitter.onSuccess(
                     sharedPrefApi.get(SharedPrefApi.LAST_KNOWN_BLOCK_HEIGHT, Long::class))

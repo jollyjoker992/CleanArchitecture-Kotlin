@@ -15,7 +15,7 @@ import com.hieupham.data.source.local.api.dao.TransactionDao
  * Created by hieupham on 6/26/18.
  */
 @Database(entities = [TransactionData::class, AssetData::class, BlockData::class],
-        version = 1)
+        version = 2)
 @TypeConverters(LinkedTreeMapConverter::class)
 abstract class DatabaseManager : RoomDatabase() {
 

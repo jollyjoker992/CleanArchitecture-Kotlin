@@ -2,12 +2,13 @@ package com.hieupham.data
 
 import android.arch.persistence.room.Room
 import android.content.Context
+import com.hieupham.data.source.TransactionRepositoryImpl
 import com.hieupham.data.source.local.TransactionLocalDataSource
 import com.hieupham.data.source.local.api.DatabaseApi
 import com.hieupham.data.source.local.api.DatabaseApiImpl
 import com.hieupham.data.source.local.api.DatabaseManager
+import com.hieupham.data.source.local.api.MigrationManager
 import com.hieupham.data.source.remote.Mapper
-import com.hieupham.data.source.TransactionRepositoryImpl
 import com.hieupham.data.source.remote.api.TransactionRemoteDataSource
 import com.hieupham.domain.repository.TransactionRepository
 import dagger.Module
@@ -40,6 +41,7 @@ class RepositoryModule {
     fun provideDatabaseManager(context: Context): DatabaseManager {
         return Room.databaseBuilder(context, DatabaseManager::class.java,
                 DatabaseManager.DATABASE_NAME)
+                .addMigrations(MigrationManager.MIGRATION_1_2)
                 .build()
     }
 }

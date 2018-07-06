@@ -21,9 +21,14 @@ data class BlockData(
         @Expose
         @ColumnInfo(name = "created_at")
         @SerializedName("created_at")
-        val createdAt: String) : Mapable<Block> {
+        val createdAt: String,
+
+        @Expose
+        @ColumnInfo(name = "bitmark_id")
+        @SerializedName("bitmark_id")
+        var bitmarkId: String? = null) : Mapable<Block> {
 
     override fun map(): Block {
-        return Block(number = number, hash = hash, createdAt = createdAt)
+        return Block(number = number, hash = hash, createdAt = createdAt, bitmarkId = bitmarkId)
     }
 }

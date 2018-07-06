@@ -1,0 +1,37 @@
+{
+  "tx": {
+    "id": "e300863b8006028796b2f60c549a7fc3d6433b685a3eff395fcc603dbccd520e",
+    "owner": "eXs95fgZXwxVmMRQTsH4Qysk9joYag6D3VpM2ec2Lon27mVCeq",
+    "asset_id": "239a6e306fb391265501f3bdd0e592090b8de7621f06cdad534307b9a246e03506bfe5a3c2bc94c3e07a3478edfcfc574a1f8bf50848981d6346ca7a28c21d82",
+    "head": "head",
+    "status": "confirmed",
+    "block_number": 8751,
+    "block_offset": 1,
+    "offset": 1400414,
+    "expires_at": null,
+    "pay_id": "d43394feea6fe9dcae0e2ec24f3190ee86079d1f481a0246dc4e0085c81dade50bc05aa3e76df0df0eeaf93e1da2a781",
+    "previous_id": "f37c290b2ea923c78a8ab8081a6c9682e7d7d32888a9db89bb8c060d60f3343c",
+    "bitmark_id": "f37c290b2ea923c78a8ab8081a6c9682e7d7d32888a9db89bb8c060d60f3343c"
+  },
+  "asset": {
+    "id": "239a6e306fb391265501f3bdd0e592090b8de7621f06cdad534307b9a246e03506bfe5a3c2bc94c3e07a3478edfcfc574a1f8bf50848981d6346ca7a28c21d82",
+    "name": "GWHOS_PDi6scB1_2018_May_25_23_59_59_05801098",
+    "fingerprint": "01bf73828ffa22bac28b59526523d7549ba88f201af795b8df80b493458e3303410f75313303e15c1c27c381a8fba373e3c6244200290073e7fab4d9cb94f098f5",
+    "metadata": {
+      "Creator": "eGHQS6LMpR6GRPTy5XxZKQWeB1wwPf54fzjCmuaXwqPDi6scB1",
+      "Created (date)": "2018 May 25 23:59:59"
+    },
+    "registrant": "eGHQS6LMpR6GRPTy5XxZKQWeB1wwPf54fzjCmuaXwqPDi6scB1",
+    "status": "confirmed",
+    "block_number": 8538,
+    "block_offset": 1,
+    "expires_at": null,
+    "offset": 12205,
+    "created_at": "2018-05-28 06:19:14+00"
+  },
+  "block": {
+    "number": 8751,
+    "hash": "00622602a2633798bed7cdd0fe1510957710c85b6a48783c1c54d00350a10840",
+    "created_at": "2018-06-01T10:48:07.000000Z"
+  }
+}
