@@ -14,7 +14,7 @@ dependencies {
     implementation deps.dagger.support
 
     testImplementation deps.junit
-    testImplementation deps.mockito
+    testImplementation deps.mockito_kotlin
     testImplementation deps.support.test_runner
 }
 

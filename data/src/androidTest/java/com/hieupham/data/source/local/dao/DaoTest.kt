@@ -18,7 +18,7 @@ abstract class DaoTest {
 
     @Rule
     @JvmField
-    val globalTimeoutRule = Timeout.seconds(120)
+    val globalTimeoutRule = Timeout.seconds(60)
 
     @Rule
     @JvmField

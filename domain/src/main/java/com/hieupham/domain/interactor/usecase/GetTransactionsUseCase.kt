@@ -1,5 +1,6 @@
 package com.hieupham.domain.interactor.usecase
 
+import android.support.annotation.VisibleForTesting
 import com.hieupham.domain.entity.CompositeTransactions
 import com.hieupham.domain.interactor.MaybeUseCase
 import com.hieupham.domain.interactor.UseCase
@@ -18,7 +19,8 @@ class GetTransactionsUseCase @Inject constructor(
     private var blockHeight: Long? = null
 
     fun next(): GetTransactionsUseCase {
-        blockNumber = blockNumber?.dec()
+        if (blockNumber != null && blockNumber!! > -1)
+            blockNumber = blockNumber?.dec()
         return this
     }
 
@@ -49,7 +51,32 @@ class GetTransactionsUseCase @Inject constructor(
     }
 
     private fun getTransactions(): Maybe<CompositeTransactions> {
-        return if (blockNumber != null) transactionRepo.getTransactions(
+        return if (blockNumber != null && blockNumber != -1L) transactionRepo.getTransactions(
                 blockNumber!!) else Maybe.empty()
+    }
+
+    @VisibleForTesting
+    fun dataStream(): Maybe<CompositeTransactions> {
+        return buildDataStream(EmptyInput.instance())
+    }
+
+    @VisibleForTesting
+    fun blockNumber(blockNumber: Long) {
+        this.blockNumber = blockNumber
+    }
+
+    @VisibleForTesting
+    fun blockNumber(): Long? {
+        return blockNumber
+    }
+
+    @VisibleForTesting
+    fun blockHeight(blockHeight: Long) {
+        this.blockHeight = blockHeight
+    }
+
+    @VisibleForTesting
+    fun blockHeight(): Long? {
+        return blockHeight
     }
 }

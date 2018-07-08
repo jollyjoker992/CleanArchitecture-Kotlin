@@ -53,7 +53,7 @@ class BitmarkApiTest : ApiTest<BitmarkApi>() {
 
         observer.assertNoValues()
         observer.assertError(expectedResult::class.java)
-        observer.assertErrorMessage("timeout")
+        observer.assertError { throwable -> throwable.message!!.contains("timeout") }
         observer.assertNotComplete()
         observer.assertTerminated()
     }
