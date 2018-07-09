@@ -1,5 +1,6 @@
 package com.hieupham.domain.interactor.usecase
 
+import android.support.annotation.VisibleForTesting
 import com.hieupham.domain.entity.CompositeTransaction
 import com.hieupham.domain.interactor.MaybeUseCase
 import com.hieupham.domain.interactor.UseCase
@@ -14,7 +15,13 @@ class GetTransactionUseCase @Inject constructor(
         private val transactionRepo: TransactionRepository) : MaybeUseCase<GetTransactionUseCase.Input, CompositeTransaction>() {
 
     override fun buildDataStream(input: Input): Maybe<CompositeTransaction> {
-        return transactionRepo.getTransaction(input.id)
+        return if (input.id.isEmpty()) Maybe.empty() else transactionRepo.getTransaction(input.id)
+    }
+
+
+    @VisibleForTesting
+    fun dataStream(input: Input): Maybe<CompositeTransaction> {
+        return buildDataStream(input)
     }
 
 

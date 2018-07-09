@@ -8,7 +8,7 @@ import com.hieupham.domain.entity.CompositeTransactions
 import java.util.*
 import javax.inject.Inject
 
-class CompositeTransactionModelViewMapper @Inject constructor() {
+open class CompositeTransactionModelViewMapper @Inject constructor() {
 
     fun transform(
             compositeTransactions: CompositeTransactions): List<CompositeTransactionModelView> {

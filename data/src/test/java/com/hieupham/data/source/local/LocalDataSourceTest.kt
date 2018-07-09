@@ -1,6 +1,5 @@
 package com.hieupham.data.source.local
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.hieupham.data.source.local.api.DatabaseApiImpl
 import com.hieupham.data.source.local.api.SharedPrefApi
 import com.hieupham.data.util.RxImmediateSchedulerRule
@@ -31,10 +30,6 @@ abstract class LocalDataSourceTest {
     @Rule
     val rxImmediateSchedulerRule = RxImmediateSchedulerRule()
 
-    @JvmField
-    @Rule
-    val instantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
-
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     lateinit var databaseApi: DatabaseApiImpl
 
@@ -42,12 +37,12 @@ abstract class LocalDataSourceTest {
     lateinit var sharedPrefApi: SharedPrefApi
 
     @Before
-    fun before() {
+    open fun before() {
 
     }
 
     @After
-    fun after() {
+    open fun after() {
     }
 
 

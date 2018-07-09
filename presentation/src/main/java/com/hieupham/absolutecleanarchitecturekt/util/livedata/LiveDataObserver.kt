@@ -5,10 +5,19 @@ import android.os.Handler
 import android.os.Looper
 import com.hieupham.domain.interactor.Observer
 
-class LiveDataObserver<T, R> private constructor(private var liveData: MutableLiveData<Resource<R>>,
-        private var function: (T) -> R) : Observer<T>() {
+open class LiveDataObserver<T, R> private constructor() : Observer<T>() {
 
-    private val handler: Handler = Handler(Looper.getMainLooper())
+    private var handler: Handler? = null
+    private lateinit var liveData: MutableLiveData<Resource<R>>
+    private lateinit var function: (T) -> R
+
+    private constructor(liveData: MutableLiveData<Resource<R>>, function: (T) -> R,
+            triggerOnMain: Boolean = false) : this() {
+        this.liveData = liveData
+        this.function = function
+        handler = if (triggerOnMain) Handler(Looper.getMainLooper()) else null
+    }
+
 
     companion object {
         fun <T, R> from(liveData: MutableLiveData<Resource<R>>,
@@ -19,26 +28,26 @@ class LiveDataObserver<T, R> private constructor(private var liveData: MutableLi
 
     override fun onSuccess(data: T) {
         super.onSuccess(data)
-        switchOnMain { liveData.value = Resource.success(function.invoke(data)) }
+        postValue { liveData.value = Resource.success(function.invoke(data)) }
     }
 
     override fun onError(throwable: Throwable) {
         super.onError(throwable)
-        switchOnMain { liveData.value = Resource.error(throwable, null) }
+        postValue { liveData.value = Resource.error(throwable, null) }
     }
 
     override fun onSubscribed() {
         super.onSubscribed()
-        switchOnMain { liveData.value = Resource.loading(null) }
+        postValue { liveData.value = Resource.loading(null) }
     }
 
     override fun onCompleted() {
         super.onCompleted()
-        switchOnMain { liveData.value = Resource.success(null) }
+        postValue { liveData.value = Resource.success(null) }
     }
 
-    private fun switchOnMain(action: () -> Unit) {
-        handler.post { action.invoke() }
+    private fun postValue(action: () -> Unit) {
+        handler?.post { action.invoke() }
     }
 
 }

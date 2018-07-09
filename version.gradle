@@ -18,8 +18,9 @@ versions.arch_core_testing = "1.1.1"
 versions.test_runner = "1.0.2"
 versions.test_espresso_core = "3.0.2"
 versions.gson = "2.8.0"
-versions.kotlin = "1.2.50"
+versions.kotlin = "1.2.51"
 versions.mockito_kotlin = "2.0.0-RC1"
+versions.power_mock = "1.7.4"
 
 def support = [:]
 support.appcompat = "com.android.support:appcompat-v7:$versions.support"
@@ -78,6 +79,7 @@ def junit = "junit:junit:$versions.junit"
 def mockito = "org.mockito:mockito-core:$versions.mockito"
 def gson = "com.google.code.gson:gson:$versions.gson"
 def mockito_kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockito_kotlin"
+def power_mock = "org.powermock:powermock-module-junit4:$versions.power_mock"
 
 def dependencies = [:]
 dependencies.support = support
@@ -93,6 +95,7 @@ dependencies.mockito = mockito
 dependencies.gson = gson
 dependencies.kotlin = kotlin
 dependencies.mockito_kotlin = mockito_kotlin
+dependencies.power_mock = power_mock
 ext.deps = dependencies
 
 def build_versions = [:]

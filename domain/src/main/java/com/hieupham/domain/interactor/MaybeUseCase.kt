@@ -7,6 +7,7 @@ import io.reactivex.Maybe
  */
 abstract class MaybeUseCase<I : UseCase.Input, O> : UseCase<I, Maybe<O>>() {
 
+    @SuppressWarnings("VisibleForTests")
     fun execute(input: I, output: Observer<O>) {
         subscribe(buildDataStream(input).doOnSubscribe(output.onSubscribe())
                 .subscribe(output.onSuccess(), output.onError(), output.onComplete()))

@@ -27,7 +27,7 @@ abstract class ApiTest<T> {
     protected var service: T? = null
 
     @Before
-    fun before() {
+    open fun before() {
         val networkModule = NetworkModule()
         val sourceClassType = getGenericTypeClass<ApiTest<T>, T>(this)
         @Suppress("UNCHECKED_CAST")
@@ -43,7 +43,7 @@ abstract class ApiTest<T> {
     }
 
     @After
-    fun after() {
+    open fun after() {
         mockServer.shutdown()
     }
 

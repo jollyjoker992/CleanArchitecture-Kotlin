@@ -29,7 +29,7 @@ abstract class RemoteDataSourceTest<T : RemoteDataSource> {
     protected val mockServer = MockWebServer()
 
     @Before
-    fun before() {
+    open fun before() {
         val networkModule = NetworkModule()
         val sourceClassType = getGenericTypeClass<RemoteDataSourceTest<T>, T>(this)
         val service = networkModule.provideBitmarkApi(
@@ -47,7 +47,7 @@ abstract class RemoteDataSourceTest<T : RemoteDataSource> {
     }
 
     @After
-    fun after() {
+    open fun after() {
         mockServer.shutdown()
     }
 }

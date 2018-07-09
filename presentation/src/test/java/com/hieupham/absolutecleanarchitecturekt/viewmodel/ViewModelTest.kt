@@ -1,6 +1,7 @@
-package com.hieupham.domain.usecase
+package com.hieupham.absolutecleanarchitecturekt.viewmodel
 
-import com.hieupham.domain.util.RxImmediateSchedulerRule
+import android.arch.core.executor.testing.InstantTaskExecutorRule
+import com.hieupham.absolutecleanarchitecturekt.util.RxImmediateSchedulerRule
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -12,11 +13,11 @@ import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 
 @RunWith(JUnit4::class)
-abstract class UseCaseTest {
+abstract class ViewModelTest {
 
     @JvmField
     @Rule
-    val globalTimeoutRule: TestRule = Timeout.seconds(20)
+    val globalTimeoutRule: TestRule = Timeout.seconds(120)
 
     @JvmField
     @Rule
@@ -25,6 +26,10 @@ abstract class UseCaseTest {
     @JvmField
     @Rule
     val rxImmediateSchedulerRule = RxImmediateSchedulerRule()
+
+    @JvmField
+    @Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
     open fun before() {

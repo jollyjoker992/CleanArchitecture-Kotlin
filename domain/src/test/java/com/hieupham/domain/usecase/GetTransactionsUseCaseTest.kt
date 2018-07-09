@@ -4,18 +4,19 @@ import com.hieupham.domain.data.*
 import com.hieupham.domain.entity.CompositeTransactions
 import com.hieupham.domain.interactor.usecase.GetTransactionsUseCase
 import com.hieupham.domain.repository.TransactionRepository
+import com.hieupham.domain.util.random
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNull
+import org.junit.Assert.*
 import org.junit.Test
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import java.net.SocketTimeoutException
 
-class GetTransactionsUseCaseTest : UseCaseTest() {
+open class GetTransactionsUseCaseTest : UseCaseTest() {
 
     @Mock
     lateinit var transactionRepo: TransactionRepository
@@ -78,8 +79,6 @@ class GetTransactionsUseCaseTest : UseCaseTest() {
         val expectedResult = timeoutException()
         val observer = TestObserver<CompositeTransactions>()
         whenever(transactionRepo.getBlockHeight()).thenReturn(Single.error(expectedResult))
-        whenever(transactionRepo.getTransactions(any())).thenReturn(Maybe.just(
-                compositeTransactions1()))
 
         usecase.refresh().dataStream().subscribe(observer)
 
@@ -109,22 +108,40 @@ class GetTransactionsUseCaseTest : UseCaseTest() {
     }
 
     @Test
-    fun testRefreshTransactions_GetBlockHeightNTransactionsSuccess_CurrentBlockNumberIsLatest() {
-
-    }
-
-    @Test
     fun testRefreshTransactions_GetBlockHeightSuccessNGetTransactionsFailed_ErrorIsThrow() {
+        val expectedResult = timeoutException()
+        val observer = TestObserver<CompositeTransactions>()
+        whenever(transactionRepo.getBlockHeight()).thenReturn(Single.just(BLOCK_HEIGHT))
+        whenever(transactionRepo.getTransactions(any())).thenReturn(Maybe.error(expectedResult))
 
+        usecase.refresh().dataStream().subscribe(observer)
+
+        observer.assertError(expectedResult)
+        observer.assertError(SocketTimeoutException::class.java)
+        observer.assertNotComplete()
+        observer.assertTerminated()
+        assertEquals(usecase.blockHeight(), BLOCK_HEIGHT)
+        assertEquals(usecase.blockNumber(), BLOCK_HEIGHT)
     }
 
     @Test
-    fun testFetchLatestTransactions_GetBlockHeightNTransactionsSuccess_DataIsReturn() {
-    }
+    fun testFetchLatestTransactions_GetBlockHeightNTransactionsSuccess_DataIsReturnNCurrentBlockIsNotLatest() {
+        val expectedResult = compositeTransactions1()
+        val observer = TestObserver<CompositeTransactions>()
+        val blockNumber = BLOCK_NUMBER - (1..10).random()
+        usecase.blockNumber(blockNumber)
+        whenever(transactionRepo.getBlockHeight()).thenReturn(Single.just(BLOCK_HEIGHT))
+        whenever(transactionRepo.getTransactions(any())).thenReturn(Maybe.just(expectedResult))
 
-    @Test
-    fun testFetchLatestTransactions_GetBlockHeightNTransactionsSuccess_CurrentBlockIsNotLatest() {
-    }
+        usecase.fetchLatest().dataStream().subscribe(observer)
 
+        observer.assertValue(expectedResult)
+        observer.assertNoErrors()
+        observer.assertComplete()
+        observer.assertTerminated()
+        assertEquals(usecase.blockHeight(), BLOCK_HEIGHT)
+        assertEquals(usecase.blockNumber(), blockNumber)
+        assertNotEquals(usecase.blockNumber(), BLOCK_HEIGHT)
+    }
 
 }

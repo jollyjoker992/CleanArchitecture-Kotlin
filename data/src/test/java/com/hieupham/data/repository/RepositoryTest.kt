@@ -1,6 +1,5 @@
 package com.hieupham.data.repository
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.hieupham.data.util.RxImmediateSchedulerRule
 import org.junit.After
 import org.junit.Before
@@ -18,25 +17,21 @@ abstract class RepositoryTest {
 
     @JvmField
     @Rule
-    val globalTimeoutRule : TestRule = Timeout.seconds(20)
+    val globalTimeoutRule: TestRule = Timeout.seconds(20)
 
     @JvmField
     @Rule
-    val mockitoRule : MockitoRule = MockitoJUnit.rule()
+    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     @JvmField
     @Rule
     val rxImmediateSchedulerRule = RxImmediateSchedulerRule()
 
-    @JvmField
-    @Rule
-    val instantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
-
     @Before
-    fun before() {
+    open fun before() {
     }
 
     @After
-    fun after() {
+    open fun after() {
     }
 }

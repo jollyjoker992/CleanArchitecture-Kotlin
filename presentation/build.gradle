@@ -58,7 +58,7 @@ dependencies {
     implementation deps.kotlin.java
 
     testImplementation deps.junit
-    testImplementation deps.mockito
+    testImplementation deps.mockito_kotlin
     testImplementation deps.support.test_runner
     testImplementation deps.arch.core_testing
 

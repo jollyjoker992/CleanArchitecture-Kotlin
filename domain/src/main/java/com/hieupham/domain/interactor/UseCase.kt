@@ -1,5 +1,6 @@
 package com.hieupham.domain.interactor
 
+import android.support.annotation.VisibleForTesting
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
@@ -8,16 +9,22 @@ import io.reactivex.disposables.Disposable
  */
 abstract class UseCase<I : UseCase.Input, O> {
 
-    private val compositeDisposable = CompositeDisposable()
+    private var compositeDisposable = CompositeDisposable()
 
-    protected abstract fun buildDataStream(input: I): O
+    @VisibleForTesting
+    abstract fun buildDataStream(input: I): O
 
-    internal fun subscribe(disposable: Disposable) {
+    protected fun subscribe(disposable: Disposable) {
         compositeDisposable.add(disposable)
     }
 
     fun dispose() {
         compositeDisposable.clear()
+    }
+
+    @VisibleForTesting
+    fun compositeDisposable(disposable: CompositeDisposable) {
+        this.compositeDisposable = disposable
     }
 
     abstract class Input

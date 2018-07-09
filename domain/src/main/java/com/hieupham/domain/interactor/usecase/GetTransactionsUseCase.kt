@@ -12,7 +12,7 @@ import javax.inject.Inject
 /**
  * Created by hieupham on 6/26/18.
  */
-class GetTransactionsUseCase @Inject constructor(
+open class GetTransactionsUseCase @Inject constructor(
         private val transactionRepo: TransactionRepository) : MaybeUseCase<UseCase.EmptyInput, CompositeTransactions>() {
 
     private var blockNumber: Long? = null

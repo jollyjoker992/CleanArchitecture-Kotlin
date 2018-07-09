@@ -5,7 +5,7 @@ import android.os.Looper
 import java.util.*
 import javax.inject.Inject
 
-class IntervalScheduler @Inject constructor() {
+open class IntervalScheduler @Inject constructor() {
 
     interface SchedulerListener {
         fun onSchedule()

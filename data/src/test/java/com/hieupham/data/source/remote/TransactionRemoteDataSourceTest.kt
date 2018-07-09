@@ -13,9 +13,9 @@ import com.hieupham.data.source.remote.api.response.TransactionsResponse
 import com.hieupham.data.source.remote.api.service.ServiceGenerator
 import com.hieupham.data.util.TestUtil.Companion.getResponse
 import io.reactivex.observers.TestObserver
-import junit.framework.Assert.assertEquals
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.SocketPolicy
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import retrofit2.HttpException
 import java.util.concurrent.TimeUnit

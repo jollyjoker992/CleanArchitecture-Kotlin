@@ -12,9 +12,9 @@ import com.hieupham.data.source.remote.api.service.BitmarkApi
 import com.hieupham.data.source.remote.api.service.ServiceGenerator
 import com.hieupham.data.util.TestUtil.Companion.getResponse
 import io.reactivex.observers.TestObserver
-import junit.framework.Assert
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.SocketPolicy
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import retrofit2.HttpException
 import java.util.concurrent.TimeUnit
@@ -69,7 +69,7 @@ class BitmarkApiTest : ApiTest<BitmarkApi>() {
 
         observer.assertNoValues()
         observer.assertError(HttpException::class.java)
-        Assert.assertEquals(1, observer.errorCount())
+        assertEquals(1, observer.errorCount())
         observer.assertTerminated()
     }
 
@@ -121,7 +121,7 @@ class BitmarkApiTest : ApiTest<BitmarkApi>() {
 
         observer.assertNoValues()
         observer.assertError(HttpException::class.java)
-        Assert.assertEquals(1, observer.errorCount())
+        assertEquals(1, observer.errorCount())
         observer.assertTerminated()
     }
 }
