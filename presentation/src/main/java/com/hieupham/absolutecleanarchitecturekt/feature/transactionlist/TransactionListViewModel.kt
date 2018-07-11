@@ -2,7 +2,6 @@ package com.hieupham.absolutecleanarchitecturekt.feature.transactionlist
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.support.annotation.VisibleForTesting
 import com.hieupham.absolutecleanarchitecturekt.model.CompositeTransactionModelView
 import com.hieupham.absolutecleanarchitecturekt.model.mapper.CompositeTransactionModelViewMapper
 import com.hieupham.absolutecleanarchitecturekt.util.common.Duration
@@ -10,7 +9,6 @@ import com.hieupham.absolutecleanarchitecturekt.util.common.IntervalScheduler
 import com.hieupham.absolutecleanarchitecturekt.util.livedata.LiveDataObserver
 import com.hieupham.absolutecleanarchitecturekt.util.livedata.Resource
 import com.hieupham.domain.entity.CompositeTransactions
-import com.hieupham.domain.interactor.Observer
 import com.hieupham.domain.interactor.UseCase
 import com.hieupham.domain.interactor.usecase.GetTransactionsUseCase
 import java.util.concurrent.TimeUnit
@@ -51,38 +49,23 @@ open class TransactionListViewModel(getTransactionsUseCase: GetTransactionsUseCa
     override fun getNextTransactions() {
         val output = LiveDataObserver.from<CompositeTransactions, List<CompositeTransactionModelView>>(
                 liveNextTransactions) { transactions -> mapper.transform(transactions) }
-        getNextTransactions(output)
+        getTransactionsUseCase.next().execute(UseCase.EmptyInput.instance(), output)
     }
 
     override fun refreshTransactions() {
         val output = LiveDataObserver.from<CompositeTransactions, List<CompositeTransactionModelView>>(
                 liveRefreshTransactions) { transactions -> mapper.transform(transactions) }
-        refreshTransactions(output)
+        getTransactionsUseCase.refresh().execute(UseCase.EmptyInput.instance(), output)
     }
 
     override fun fetchLatestTransactions() {
         val output = LiveDataObserver.from<CompositeTransactions, List<CompositeTransactionModelView>>(
                 liveLatestTransactions) { transitions -> mapper.transform(transitions) }
-        fetchLatestTransactions(output)
+        getTransactionsUseCase.fetchLatest().execute(UseCase.EmptyInput.instance(), output)
     }
 
     override fun onSchedule() {
         fetchLatestTransactions()
-    }
-
-    @VisibleForTesting
-    fun getNextTransactions(observer: Observer<CompositeTransactions>) {
-        getTransactionsUseCase.next().execute(UseCase.EmptyInput.instance(), observer)
-    }
-
-    @VisibleForTesting
-    fun refreshTransactions(observer: Observer<CompositeTransactions>) {
-        getTransactionsUseCase.refresh().execute(UseCase.EmptyInput.instance(), observer)
-    }
-
-    @VisibleForTesting
-    fun fetchLatestTransactions(observer: Observer<CompositeTransactions>) {
-        getTransactionsUseCase.fetchLatest().execute(UseCase.EmptyInput.instance(), observer)
     }
 
 }

@@ -1,4 +1,4 @@
-package com.hieupham.data.repository
+package com.hieupham.data.test.repository
 
 import com.hieupham.data.util.RxImmediateSchedulerRule
 import org.junit.After

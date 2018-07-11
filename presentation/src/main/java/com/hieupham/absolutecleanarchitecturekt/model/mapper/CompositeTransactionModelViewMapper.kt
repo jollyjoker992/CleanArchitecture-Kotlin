@@ -4,6 +4,7 @@ import com.hieupham.absolutecleanarchitecturekt.model.AssetModelView
 import com.hieupham.absolutecleanarchitecturekt.model.BlockModelView
 import com.hieupham.absolutecleanarchitecturekt.model.CompositeTransactionModelView
 import com.hieupham.absolutecleanarchitecturekt.model.TransactionModelView
+import com.hieupham.domain.entity.CompositeTransaction
 import com.hieupham.domain.entity.CompositeTransactions
 import java.util.*
 import javax.inject.Inject
@@ -36,5 +37,12 @@ open class CompositeTransactionModelViewMapper @Inject constructor() {
                     refAsset!!, refBlock!!))
         }
         return result
+    }
+
+    fun transform(compositeTransaction: CompositeTransaction): CompositeTransactionModelView {
+        return CompositeTransactionModelView(
+                TransactionModelView().map(compositeTransaction.transaction),
+                AssetModelView().map(compositeTransaction.asset),
+                BlockModelView().map(compositeTransaction.block))
     }
 }

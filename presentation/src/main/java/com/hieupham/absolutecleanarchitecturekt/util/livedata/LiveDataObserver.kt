@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.os.Handler
 import android.os.Looper
 import com.hieupham.domain.interactor.Observer
+import java.lang.RuntimeException
 
 open class LiveDataObserver<T, R> private constructor() : Observer<T>() {
 
@@ -11,11 +12,14 @@ open class LiveDataObserver<T, R> private constructor() : Observer<T>() {
     private lateinit var liveData: MutableLiveData<Resource<R>>
     private lateinit var function: (T) -> R
 
-    private constructor(liveData: MutableLiveData<Resource<R>>, function: (T) -> R,
-            triggerOnMain: Boolean = false) : this() {
+    private constructor(liveData: MutableLiveData<Resource<R>>, function: (T) -> R) : this() {
         this.liveData = liveData
         this.function = function
-        handler = if (triggerOnMain) Handler(Looper.getMainLooper()) else null
+        try {
+            handler = Handler(Looper.getMainLooper())
+        } catch (ignore: RuntimeException) {
+        }
+
     }
 
 
@@ -47,7 +51,7 @@ open class LiveDataObserver<T, R> private constructor() : Observer<T>() {
     }
 
     private fun postValue(action: () -> Unit) {
-        handler?.post { action.invoke() }
+        handler?.post { action.invoke() } ?: action.invoke()
     }
 
 }

@@ -22,11 +22,6 @@ abstract class UseCase<I : UseCase.Input, O> {
         compositeDisposable.clear()
     }
 
-    @VisibleForTesting
-    fun compositeDisposable(disposable: CompositeDisposable) {
-        this.compositeDisposable = disposable
-    }
-
     abstract class Input
 
     open class EmptyInput private constructor() : Input() {

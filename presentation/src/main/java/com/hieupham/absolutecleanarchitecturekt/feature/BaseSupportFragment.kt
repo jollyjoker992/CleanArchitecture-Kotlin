@@ -64,5 +64,6 @@ abstract class BaseSupportFragment : DaggerSupportFragment() {
     /**
      * Observe data change from ViewModel
      */
-    protected open fun observe() {}
+    internal open fun observe() {}
+
 }

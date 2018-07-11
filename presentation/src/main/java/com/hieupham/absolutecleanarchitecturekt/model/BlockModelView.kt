@@ -36,6 +36,24 @@ class BlockModelView() : Parcelable, Mapable<Block, BlockModelView> {
         return 0
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is BlockModelView) return false
+
+        if (number != other.number) return false
+        if (hash != other.hash) return false
+        if (createdAt != other.createdAt) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = number.hashCode()
+        result = 31 * result + hash.hashCode()
+        result = 31 * result + createdAt.hashCode()
+        return result
+    }
+
     companion object CREATOR : Parcelable.Creator<BlockModelView> {
         override fun createFromParcel(parcel: Parcel): BlockModelView {
             return BlockModelView(parcel)
@@ -45,4 +63,6 @@ class BlockModelView() : Parcelable, Mapable<Block, BlockModelView> {
             return arrayOfNulls(size)
         }
     }
+
+
 }

@@ -44,4 +44,24 @@ class Resource<T> private constructor(val status: Int, val data: T?,
     fun isEmpty(): Boolean {
         return isSuccessful() && data == null
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Resource<*>) return false
+
+        if (status != other.status) return false
+        if (data != other.data) return false
+        if (throwable != other.throwable) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = status
+        result = 31 * result + (data?.hashCode() ?: 0)
+        result = 31 * result + (throwable?.hashCode() ?: 0)
+        return result
+    }
+
+
 }

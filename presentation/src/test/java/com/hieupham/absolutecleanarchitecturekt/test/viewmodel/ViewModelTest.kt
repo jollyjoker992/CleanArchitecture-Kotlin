@@ -1,8 +1,7 @@
-package com.hieupham.data.source.local
+package com.hieupham.absolutecleanarchitecturekt.test.viewmodel
 
-import com.hieupham.data.source.local.api.DatabaseApiImpl
-import com.hieupham.data.source.local.api.SharedPrefApi
-import com.hieupham.data.util.RxImmediateSchedulerRule
+import android.arch.core.executor.testing.InstantTaskExecutorRule
+import com.hieupham.absolutecleanarchitecturekt.util.RxImmediateSchedulerRule
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -10,16 +9,14 @@ import org.junit.rules.TestRule
 import org.junit.rules.Timeout
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Answers
-import org.mockito.Mock
 import org.mockito.junit.MockitoJUnit
 import org.mockito.junit.MockitoRule
 
 @RunWith(JUnit4::class)
-abstract class LocalDataSourceTest {
+abstract class ViewModelTest {
 
-    @Rule
     @JvmField
+    @Rule
     val globalTimeoutRule: TestRule = Timeout.seconds(20)
 
     @JvmField
@@ -30,20 +27,15 @@ abstract class LocalDataSourceTest {
     @Rule
     val rxImmediateSchedulerRule = RxImmediateSchedulerRule()
 
-    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-    lateinit var databaseApi: DatabaseApiImpl
-
-    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-    lateinit var sharedPrefApi: SharedPrefApi
+    @JvmField
+    @Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
     open fun before() {
-
     }
 
     @After
     open fun after() {
     }
-
-
 }

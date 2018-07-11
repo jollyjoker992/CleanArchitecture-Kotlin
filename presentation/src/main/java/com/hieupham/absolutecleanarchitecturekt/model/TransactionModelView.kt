@@ -87,4 +87,41 @@ class TransactionModelView() : Parcelable, Mapable<Transaction, TransactionModel
             return arrayOfNulls(size)
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is TransactionModelView) return false
+
+        if (id != other.id) return false
+        if (owner != other.owner) return false
+        if (assetId != other.assetId) return false
+        if (head != other.head) return false
+        if (status != other.status) return false
+        if (blockNumber != other.blockNumber) return false
+        if (blockOffset != other.blockOffset) return false
+        if (offset != other.offset) return false
+        if (expiredAt != other.expiredAt) return false
+        if (payId != other.payId) return false
+        if (previousId != other.previousId) return false
+        if (bitmarkId != other.bitmarkId) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + owner.hashCode()
+        result = 31 * result + assetId.hashCode()
+        result = 31 * result + head.hashCode()
+        result = 31 * result + status.hashCode()
+        result = 31 * result + blockNumber.hashCode()
+        result = 31 * result + blockOffset.hashCode()
+        result = 31 * result + offset.hashCode()
+        result = 31 * result + (expiredAt?.hashCode() ?: 0)
+        result = 31 * result + payId.hashCode()
+        result = 31 * result + (previousId?.hashCode() ?: 0)
+        result = 31 * result + bitmarkId.hashCode()
+        return result
+    }
+
 }

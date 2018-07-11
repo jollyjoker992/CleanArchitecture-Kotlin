@@ -68,6 +68,38 @@ class AssetModelView() : Parcelable, Mapable<Asset, AssetModelView> {
         return 0
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is AssetModelView) return false
+
+        if (id != other.id) return false
+        if (name != other.name) return false
+        if (fingerPrint != other.fingerPrint) return false
+        if (metadata != other.metadata) return false
+        if (registrant != other.registrant) return false
+        if (status != other.status) return false
+        if (blockNumber != other.blockNumber) return false
+        if (blockOffset != other.blockOffset) return false
+        if (expiresAt != other.expiresAt) return false
+        if (offset != other.offset) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + name.hashCode()
+        result = 31 * result + (fingerPrint?.hashCode() ?: 0)
+        result = 31 * result + (metadata?.hashCode() ?: 0)
+        result = 31 * result + registrant.hashCode()
+        result = 31 * result + status.hashCode()
+        result = 31 * result + blockNumber.hashCode()
+        result = 31 * result + blockOffset.hashCode()
+        result = 31 * result + (expiresAt?.hashCode() ?: 0)
+        result = 31 * result + offset.hashCode()
+        return result
+    }
+
     companion object CREATOR : Parcelable.Creator<AssetModelView> {
         override fun createFromParcel(parcel: Parcel): AssetModelView {
             return AssetModelView(parcel)
@@ -77,5 +109,7 @@ class AssetModelView() : Parcelable, Mapable<Asset, AssetModelView> {
             return arrayOfNulls(size)
         }
     }
+
+
 
 }

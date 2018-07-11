@@ -7,6 +7,8 @@ import com.hieupham.domain.entity.*
 import java.net.SocketTimeoutException
 import java.sql.SQLException
 
+const val TRANSACTION_ID = "e300863b8006028796b2f60c549a7fc3d6433b685a3eff395fcc603dbccd520e"
+
 fun transaction1(): Transaction {
     return Transaction("e300863b8006028796b2f60c549a7fc3d6433b685a3eff395fcc603dbccd520e",
             "eXs95fgZXwxVmMRQTsH4Qysk9joYag6D3VpM2ec2Lon27mVCeq",
@@ -179,7 +181,7 @@ fun transactionModelView5(): TransactionModelView {
     return TransactionModelView().map(transaction5())
 }
 
-fun compositeTransactionModelView(): List<CompositeTransactionModelView> {
+fun compositeTransactionModelViews1(): List<CompositeTransactionModelView> {
     return object : ArrayList<CompositeTransactionModelView>() {
         init {
             add(CompositeTransactionModelView().map(
@@ -194,6 +196,11 @@ fun compositeTransactionModelView(): List<CompositeTransactionModelView> {
                     CompositeTransaction(transaction5(), asset1(), block1())))
         }
     }
+}
+
+fun compositeTransactionModelView1(): CompositeTransactionModelView {
+    return CompositeTransactionModelView().map(
+            CompositeTransaction(transaction1(), asset3(), block1()))
 }
 
 fun compositeTransactions1(): CompositeTransactions {

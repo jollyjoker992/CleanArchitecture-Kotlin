@@ -2,6 +2,7 @@ package com.hieupham.absolutecleanarchitecturekt.feature.transactiondetail
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.support.annotation.VisibleForTesting
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
@@ -11,7 +12,9 @@ import butterknife.BindView
 import com.hieupham.absolutecleanarchitecturekt.R
 import com.hieupham.absolutecleanarchitecturekt.feature.BaseSupportFragment
 import com.hieupham.absolutecleanarchitecturekt.feature.BaseViewModel
+import com.hieupham.absolutecleanarchitecturekt.feature.DialogManager
 import com.hieupham.absolutecleanarchitecturekt.model.CompositeTransactionModelView
+import com.hieupham.absolutecleanarchitecturekt.util.livedata.Resource
 import javax.inject.Inject
 
 class TransactionDetailFragment : BaseSupportFragment() {
@@ -30,6 +33,9 @@ class TransactionDetailFragment : BaseSupportFragment() {
 
     @Inject
     internal lateinit var viewModel: ViewModel
+
+    @Inject
+    internal lateinit var dialogManager: DialogManager
 
     @BindView(R.id.text_title)
     internal lateinit var textViewTitle: TextView
@@ -84,20 +90,37 @@ class TransactionDetailFragment : BaseSupportFragment() {
 
     override fun observe() {
         super.observe()
-        viewModel.liveTransactionDetail().observe(this, Observer { resource ->
-            progressBar.visibility = View.INVISIBLE
-            if (resource != null && !resource.isEmpty()) {
-                if (resource.isSuccessful()) {
-                    val transaction = resource.data ?: return@Observer
-                    bindData(transaction)
-                } else if (resource.isLoading()) {
-                    progressBar.visibility = View.VISIBLE
-                }
-            }
-        })
+        viewModel.liveTransactionDetail().observe(this, transactionDetailObserver())
     }
 
-    private fun bindData(transaction: CompositeTransactionModelView) {
+    private fun transactionDetailObserver(): Observer<Resource<CompositeTransactionModelView>> {
+        return Observer { resource ->
+            showProgress(false)
+            if (resource != null && !resource.isEmpty()) {
+                when {
+                    resource.isSuccessful() -> {
+                        val transaction = resource.data ?: return@Observer
+                        bindData(transaction)
+                    }
+                    resource.isLoading() -> showProgress(true)
+                    resource.isError() -> showError(resource.throwable!!)
+                }
+            }
+        }
+    }
+
+    @VisibleForTesting
+    internal fun showProgress(show: Boolean) {
+        progressBar.visibility = if (show) View.VISIBLE else View.INVISIBLE
+    }
+
+    @VisibleForTesting
+    internal fun showError(throwable: Throwable) {
+        dialogManager.showError(throwable)
+    }
+
+    @VisibleForTesting
+    internal fun bindData(transaction: CompositeTransactionModelView) {
         val context = context ?: return
         textViewTitle.text = if (transaction.isTransfer())
             context.getString(R.string.property_transfer)
