@@ -16,15 +16,15 @@ open class TransactionRemoteDataSource @Inject constructor(bitmarkApi: BitmarkAp
         bitmarkApi, converter) {
 
     open fun getTransactions(blockNumber: Long, limit: Int): Single<TransactionsResponse> {
-        return bitmarkApi.getTransactions(blockNumber, "later", limit, true, true)
+        return bitmarkApi.getTransactions(blockNumber, "later", limit)
                 .subscribeOn(Schedulers.io())
     }
 
     open fun getTransaction(id: String): Single<TransactionResponse> {
-        return bitmarkApi.getTransaction(id, true, true).subscribeOn(Schedulers.io())
+        return bitmarkApi.getTransaction(id).subscribeOn(Schedulers.io())
     }
 
     open fun getBlockHeight(): Single<Long> {
-        return bitmarkApi.getInfo().map(converter.toInfo).subscribeOn(Schedulers.io())
+        return bitmarkApi.getInfo().map(converter.toInfo()).subscribeOn(Schedulers.io())
     }
 }

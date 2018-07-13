@@ -8,30 +8,40 @@ import com.hieupham.data.data.TestDataProvider.Companion.timeoutException
 import com.hieupham.data.data.TestDataProvider.Companion.transactionResponse1
 import com.hieupham.data.data.TestDataProvider.Companion.transactionsResponse1
 import com.hieupham.data.source.remote.api.TransactionRemoteDataSource
+import com.hieupham.data.source.remote.api.converter.Converter
+import com.hieupham.data.source.remote.api.response.InfoResponse
 import com.hieupham.data.source.remote.api.response.TransactionResponse
 import com.hieupham.data.source.remote.api.response.TransactionsResponse
-import com.hieupham.data.source.remote.api.service.ServiceGenerator
-import com.hieupham.data.util.TestUtil.Companion.getResponse
+import com.hieupham.data.source.remote.api.service.BitmarkApi
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
+import io.reactivex.Single
 import io.reactivex.observers.TestObserver
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.SocketPolicy
-import org.junit.Assert.assertEquals
 import org.junit.Test
-import retrofit2.HttpException
-import java.util.concurrent.TimeUnit
+import org.mockito.Answers
+import org.mockito.InjectMocks
+import org.mockito.Mock
 
-class TransactionRemoteDataSourceTest : RemoteDataSourceTest<TransactionRemoteDataSource>() {
+class TransactionRemoteDataSourceTest : RemoteDataSourceTest() {
+
+    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
+    lateinit var bitmarkApi: BitmarkApi
+
+    @Mock
+    lateinit var converter: Converter
+
+    @InjectMocks
+    lateinit var dataSource: TransactionRemoteDataSource
 
     @Test
-    fun testGetTransactions_NoError_DataIsReturn() {
-        val rawResponse = getResponse("transactions.json")
-        val response = MockResponse().setResponseCode(200).setBody(rawResponse)
+    fun testGetTransactions_GetTransactionsSuccess_DataIsReturn() {
         val expectedResult = transactionsResponse1()
         val observer = TestObserver<TransactionsResponse>()
-        mockServer.enqueue(response)
+        whenever(bitmarkApi.getTransactions(any(), any(), any(), any(), any())).thenReturn(
+                Single.just(expectedResult))
 
         dataSource.getTransactions(BLOCK_NUMBER, LIMITED_RESULT).subscribe(observer)
-        observer.awaitTerminalEvent(2, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
         observer.assertValue(expectedResult)
@@ -40,17 +50,13 @@ class TransactionRemoteDataSourceTest : RemoteDataSourceTest<TransactionRemoteDa
     }
 
     @Test
-    fun testGetTransactions_NetworkError_ErrorIsThrow() {
-        val rawResponse = getResponse("transactions.json")
-        val response = MockResponse().setResponseCode(200).setSocketPolicy(
-                SocketPolicy.NO_RESPONSE).throttleBody(1024, 1,
-                TimeUnit.SECONDS).setBody(rawResponse)
+    fun testGetTransactions_GetTransactionsFailed_ErrorIsThrow() {
         val expectedResult = timeoutException()
         val observer = TestObserver<TransactionsResponse>()
-        mockServer.enqueue(response)
+        whenever(bitmarkApi.getTransactions(any(), any(), any(), any(), any())).thenReturn(
+                Single.error(expectedResult))
 
         dataSource.getTransactions(BLOCK_NUMBER, LIMITED_RESULT).subscribe(observer)
-        observer.awaitTerminalEvent(ServiceGenerator.TEST_CONNECTION_TIMEOUT * 2, TimeUnit.SECONDS)
 
         observer.assertNoValues()
         observer.assertError(expectedResult::class.java)
@@ -61,31 +67,13 @@ class TransactionRemoteDataSourceTest : RemoteDataSourceTest<TransactionRemoteDa
     }
 
     @Test
-    fun testGetTransactions_ServerError_ErrorIsThrow() {
-        val response = MockResponse().setResponseCode(500)
-        val observer = TestObserver<TransactionsResponse>()
-        mockServer.enqueue(response)
-
-        dataSource.getTransactions(BLOCK_NUMBER, LIMITED_RESULT).subscribe(observer)
-        observer.awaitTerminalEvent(2, TimeUnit.SECONDS)
-
-        observer.assertNoValues()
-        observer.assertError(HttpException::class.java)
-        assertEquals(1, observer.errorCount())
-        observer.assertTerminated()
-
-    }
-
-    @Test
-    fun testGetTransaction_NoError_DataIsReturn() {
-        val rawResponse = getResponse("transaction.json")
-        val response = MockResponse().setResponseCode(200).setBody(rawResponse)
+    fun testGetTransaction_GetTransactionSuccess_DataIsReturn() {
         val expectedResult = transactionResponse1()
         val observer = TestObserver<TransactionResponse>()
-        mockServer.enqueue(response)
+        whenever(bitmarkApi.getTransaction(any(), any(), any())).thenReturn(
+                Single.just(expectedResult))
 
         dataSource.getTransaction(TRANSACTION_ID).subscribe(observer)
-        observer.awaitTerminalEvent(2, TimeUnit.SECONDS)
 
         observer.assertNoErrors()
         observer.assertValue(expectedResult)
@@ -94,17 +82,13 @@ class TransactionRemoteDataSourceTest : RemoteDataSourceTest<TransactionRemoteDa
     }
 
     @Test
-    fun testGetTransaction_NetworkError_ErrorIsReturn() {
-        val rawResponse = getResponse("transaction.json")
-        val response = MockResponse().setResponseCode(200).setSocketPolicy(
-                SocketPolicy.NO_RESPONSE).throttleBody(1024, 1,
-                TimeUnit.SECONDS).setBody(rawResponse)
+    fun testGetTransaction_GetTransactionFailed_ErrorIsReturn() {
         val expectedResult = timeoutException()
         val observer = TestObserver<TransactionResponse>()
-        mockServer.enqueue(response)
+        whenever(bitmarkApi.getTransaction(any(), any(), any())).thenReturn(
+                Single.error(expectedResult))
 
         dataSource.getTransaction(TRANSACTION_ID).subscribe(observer)
-        observer.awaitTerminalEvent(ServiceGenerator.TEST_CONNECTION_TIMEOUT * 2, TimeUnit.SECONDS)
 
         observer.assertNoValues()
         observer.assertError(expectedResult::class.java)
@@ -114,31 +98,15 @@ class TransactionRemoteDataSourceTest : RemoteDataSourceTest<TransactionRemoteDa
     }
 
     @Test
-    fun testGetTransaction_ServerError_ErrorIsReturn() {
-        val response = MockResponse().setResponseCode(500)
-        val observer = TestObserver<TransactionResponse>()
-        mockServer.enqueue(response)
-
-        dataSource.getTransaction(TRANSACTION_ID).subscribe(observer)
-        observer.awaitTerminalEvent(2, TimeUnit.SECONDS)
-
-        observer.assertNoValues()
-        observer.assertError(HttpException::class.java)
-        assertEquals(1, observer.errorCount())
-        observer.assertTerminated()
-    }
-
-    @Test
-    fun testGetBlockInfo_NoError_DataIsReturn() {
-        val rawResponse = getResponse("block_info.json")
-        val response = MockResponse().setResponseCode(200).setBody(rawResponse)
+    fun testGetBlockInfo_GetBlockHeightSuccess_DataIsReturn() {
+        val expectedResult = BLOCK_HEIGHT
         val observer = TestObserver<Long>()
-        mockServer.enqueue(response)
+        val func : (InfoResponse) -> Long = mock()
+        whenever(bitmarkApi.getInfo().map(func)).thenReturn(Single.just(expectedResult))
 
         dataSource.getBlockHeight().subscribe(observer)
-        observer.awaitTerminalEvent(2, TimeUnit.SECONDS)
 
-        observer.assertValue(BLOCK_HEIGHT)
+        observer.assertValue(expectedResult)
         observer.assertNoErrors()
         observer.assertComplete()
         observer.assertTerminated()
@@ -146,17 +114,14 @@ class TransactionRemoteDataSourceTest : RemoteDataSourceTest<TransactionRemoteDa
     }
 
     @Test
-    fun testGetBlockInfo_NetworkError_ErrorIsThrow() {
-        val rawResponse = getResponse("block_info.json")
-        val response = MockResponse().setResponseCode(200).setSocketPolicy(
-                SocketPolicy.NO_RESPONSE).throttleBody(1024, 1,
-                TimeUnit.SECONDS).setBody(rawResponse)
+    fun testGetBlockInfo_GetBlockHeightFailed_ErrorIsThrow() {
         val expectedResult = timeoutException()
         val observer = TestObserver<Long>()
-        mockServer.enqueue(response)
+        val mapFunc : (InfoResponse) -> Long = mock()
+        whenever(bitmarkApi.getInfo().map(mapFunc)).thenReturn(
+                Single.error(expectedResult))
 
         dataSource.getBlockHeight().subscribe(observer)
-        observer.awaitTerminalEvent(ServiceGenerator.TEST_CONNECTION_TIMEOUT * 2, TimeUnit.SECONDS)
 
         observer.assertNoValues()
         observer.assertError(expectedResult::class.java)
@@ -164,20 +129,4 @@ class TransactionRemoteDataSourceTest : RemoteDataSourceTest<TransactionRemoteDa
         observer.assertNotComplete()
         observer.assertTerminated()
     }
-
-    @Test
-    fun testGetBlockInfo_ServerError_ErrorIsReturn() {
-        val response = MockResponse().setResponseCode(500)
-        val observer = TestObserver<Long>()
-        mockServer.enqueue(response)
-
-        dataSource.getBlockHeight().subscribe(observer)
-        observer.awaitTerminalEvent(2, TimeUnit.SECONDS)
-
-        observer.assertNoValues()
-        observer.assertError(HttpException::class.java)
-        assertEquals(1, observer.errorCount())
-        observer.assertTerminated()
-    }
-
 }

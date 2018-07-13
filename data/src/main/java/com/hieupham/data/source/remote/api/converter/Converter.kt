@@ -6,7 +6,9 @@ import javax.inject.Inject
 /**
  * Created by hieupham on 6/26/18.
  */
-class Converter @Inject constructor() {
+open class Converter @Inject constructor() {
 
-    val toInfo: (InfoResponse) -> Long = { response -> response.height }
+    fun toInfo(): (InfoResponse) -> Long {
+        return { response -> response.height }
+    }
 }

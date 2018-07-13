@@ -4,6 +4,7 @@ import com.google.gson.internal.LinkedTreeMap
 import com.hieupham.data.model.AssetData
 import com.hieupham.data.model.BlockData
 import com.hieupham.data.model.TransactionData
+import com.hieupham.data.source.remote.api.response.InfoResponse
 import com.hieupham.data.source.remote.api.response.TransactionResponse
 import com.hieupham.data.source.remote.api.response.TransactionsResponse
 import com.hieupham.domain.entity.*
@@ -327,6 +328,10 @@ class TestDataProvider {
                     add(blockData1())
                 }
             }
+        }
+
+        fun blockInfoResponse(): InfoResponse {
+            return InfoResponse(BLOCK_HEIGHT)
         }
 
         fun compositeTransactions1(): CompositeTransactions {
