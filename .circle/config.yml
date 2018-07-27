@@ -1,0 +1,48 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-26-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+      CACHED_KEY: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}-{{ checksum  "data/build.gradle" }}-{{ checksum  "domain/build.gradle" }}
+    steps:
+      - checkout
+      - restore_cache:
+          key: $CACHED_KEY
+#      - run:
+#         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+#         command: sudo chmod +x ./gradlew
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: $CACHED_KEY
+      - run:
+          name: Run Domain Test
+          command: ./gradlew domain:test
+      - store_artifacts:
+          path: domain/build/reports
+          destination: reports
+      - store_test_results:
+          path: domain/build/test-results
+      - run:
+          name: Run Data Tests
+          command: ./gradlew data:testDebug
+      - store_artifacts:
+          path: data/build/reports
+          destination: reports
+      - store_test_results:
+          path: data/build/test-results
+      - run:
+          name: Run App Test
+          command: ./gradlew presentation:testDebug
+      - store_artifacts:
+          path: presentation/build/reports
+          destination: reports
+      - store_test_results:
+          path: presentation/build/test-results
+      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
